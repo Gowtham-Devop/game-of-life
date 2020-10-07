@@ -1,7 +1,7 @@
 pipeline {
     agent any 
     tools { 
-        maven 'Maven' 
+        maven 'maven' 
       
     }
 stages { 
@@ -12,7 +12,7 @@ stages {
 
       // Get some code from a GitHub repository
 
-      git 'https://github.com/raknas999/game-of-life.git'
+      git 'https://github.com/Gowtham-Devop/game-of-life.git'
 
       // Get the Maven tool.
      
@@ -43,10 +43,10 @@ stages {
  }
  stage('Sonarqube') {
     environment {
-        def scannerHome = tool 'sonarqube';
+        def scannerHome = tool 'sonar';
     }
     steps {
-      withSonarQubeEnv('sonarqube') {
+      withSonarQubeEnv('sonar') {
             sh "${scannerHome}/bin/sonar-scanner"
         }
         timeout(time: 10, unit: 'MINUTES') {
@@ -59,18 +59,18 @@ stages {
        nexusPublisher nexusInstanceId: '1234', nexusRepositoryId: 'releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'gameoflife-web/target/gameoflife.war']], mavenCoordinate: [artifactId: 'gameoflife', groupId: 'com.wakaleo.gameoflife', packaging: 'war', version: '$BUILD_NUMBER']]]
       }
      }
-    stage('Deploy War') {
-      steps {
-        sh label: '', script: 'ansible-playbook deploy.yml'
-      }
- }
+    //stage('Deploy War') {
+      //steps {
+        //sh label: '', script: 'ansible-playbook deploy.yml'
+      //}
+ //}
 }
 post {
        success {
             archiveArtifacts 'gameoflife-web/target/*.war'
         }
        failure {
-           mail to:"raknas000@gmail.com", subject:"FAILURE: ${currentBuild.fullDisplayName}", body: "Build failed"
+           mail to:"gowthamtpr26@gmail.com", subject:"FAILURE: ${currentBuild.fullDisplayName}", body: "Build failed"
         }
     }       
 }
