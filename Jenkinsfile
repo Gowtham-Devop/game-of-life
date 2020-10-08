@@ -64,13 +64,13 @@ stages {
         //sh label: '', script: 'ansible-playbook deploy.yml'
       //}
  //}
-}
-post {
-       success {
-            archiveArtifacts 'gameoflife-web/target/*.war'
-        }
-       failure {
-           mail to:"gowthamtpr26@gmail.com", subject:"FAILURE: ${currentBuild.fullDisplayName}", body: "Build failed"
-        }
-    }       
+//}
+//post {
+       //success {
+            //archiveArtifacts 'gameoflife-web/target/*.war'
+        //}
+       //failure {
+           //mail to:"gowthamtpr26@gmail.com", subject:"FAILURE: ${currentBuild.fullDisplayName}", body: "Build failed"
+        //}
+    //}       
 }
