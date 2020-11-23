@@ -47,9 +47,9 @@ stages {
     }
     steps {
       withSonarQubeEnv('sonarqube') {
-            sh 'mvn clean package sonar:sonar'
+            sh "${scannerHome}/bin/sonar-scanner"
         }
-        timeout(time: 5, unit: 'MINUTES') {
+        timeout(time: 1, unit: 'HOURS') {
           waitForQualityGate abortPipeline: true
         }
     }
